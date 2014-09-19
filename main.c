@@ -13,36 +13,35 @@
 
 
 
-int* check(char *in){
-	int *returnvalue = malloc(sizeof(int));
-	returnvalue[0] = -1;
+void check(char *in, int *result){
+	result[0] = -1;
 	if(isdigit(in[0])){					//This causes an implicit declaration warning
-		returnvalue[0] = atoi(&in[0]);
+		result[0] = (int)strtol(in, (char**)NULL, 10);
 	}
-	return returnvalue;
+	return;
 }
 
 node* create_list(FILE *input_file){
 	char in[2] = "\0\0"; 
-	int *result;
+	int result = -1;
 	node* head = malloc(sizeof(node));
 	node* runner = head;
 	while(fgets(in,2,input_file) != NULL){
-		result = check(in);
-		if(result[0] != -1){
-			runner->val = result[0];
+		check(in,&result);
+		if(result != -1){
+			runner->val = result;
 			node* temp = malloc(sizeof(node));
 			runner->next = temp;
 			runner = temp;
 		}
-		free(result);
 	}
 	return head;
 }
 
 void process_data(FILE *input_file) {
 	node *head = create_list(input_file);
-	printf("%i\n",head->val);
+	printf("%d\n",head->val);
+	printf("%u\n",sizeof(node));
 	listdestroy(head);
 }
 

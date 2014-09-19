@@ -16,8 +16,6 @@ void listadd(node *head, int i) {
 	head -> next = n;
 }
 
-
-
 void listdestroy(node *head){
 	node *runner = head;
 	node *temp;
@@ -26,5 +24,6 @@ void listdestroy(node *head){
 		free(runner);
 		runner = temp;
 	}	
+	free(runner);
 	return;
 }
