@@ -9,20 +9,31 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-
 #include "list.h"
 
-void process_data(FILE *input_file) {
-    // !! your code should start here.  the input_file parameter
-    // is an already-open file.  you can read data from it using
-    // the fgets() C library function.  close it with the fclose()
-    // built-in function
 
 
-
-
+int* check(char *in){
+	int *returnvalue = malloc(sizeof(int));
+	returnvalue[0] = -1;
+	printf("Here\n");
+	if(isdigit(in[0]){							//This causes an implicit declaration warning
+		returnvalue[0] = atoi(&in[0]);
+	}
+	return returnvalue;
 }
 
+void process_data(FILE *input_file) {
+	char in[2] = "\0\0"; 
+	int *result;
+	while(1 || fgets(in,2,input_file) != NULL){
+		in[0] = 'a';
+		result = check(in);
+		printf("%d\n",result[0]);
+		break;
+	}
+	free(result);
+}
 
 void usage(char *program) {
     fprintf(stderr, "usage: %s [<datafile>]\n", program);
