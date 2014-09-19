@@ -15,3 +15,16 @@ void listadd(node *head, int i) {
 
 	head -> next = n;
 }
+
+
+
+void listdestroy(node *head){
+	node *runner = head;
+	node *temp;
+	while(runner->next != NULL){
+		temp = runner->next;
+		free(runner);
+		runner = temp;
+	}	
+	return;
+}

@@ -16,7 +16,7 @@
 int* check(char *in){
 	int *returnvalue = malloc(sizeof(int));
 	returnvalue[0] = -1;
-	if(isdigit(in[0])){								//This causes an implicit declaration warning
+	if(isdigit(in[0])){					//This causes an implicit declaration warning
 		returnvalue[0] = atoi(&in[0]);
 	}
 	return returnvalue;
@@ -27,8 +27,7 @@ node* create_list(FILE *input_file){
 	int *result;
 	node* head = malloc(sizeof(node));
 	node* runner = head;
-	while(1 || fgets(in,2,input_file) != NULL){
-		in[0] = 49;
+	while(fgets(in,2,input_file) != NULL){
 		result = check(in);
 		if(result[0] != -1){
 			runner->val = result[0];
@@ -36,15 +35,15 @@ node* create_list(FILE *input_file){
 			runner->next = temp;
 			runner = temp;
 		}
-		break;
+		free(result);
 	}
-	free(result);
 	return head;
 }
 
 void process_data(FILE *input_file) {
 	node *head = create_list(input_file);
 	printf("%i\n",head->val);
+	listdestroy(head);
 }
 
 void usage(char *program) {
