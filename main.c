@@ -29,7 +29,7 @@ node* create_list(FILE *input_file){	q12
 	while(1 || fgets(in,2,input_file) != NULL){
 		in[0] = 'a';
 		result = check(in);
-		printf("%d\n",result[0]);
+		printf("%\n",result[0]);
 		break;
 	}
 	free(result);
