@@ -16,23 +16,35 @@
 int* check(char *in){
 	int *returnvalue = malloc(sizeof(int));
 	returnvalue[0] = -1;
-	printf("Here\n");
-	if(isdigit(in[0])){							//This causes an implicit declaration warning
+	if(isdigit(in[0])){								//This causes an implicit declaration warning
 		returnvalue[0] = atoi(&in[0]);
 	}
 	return returnvalue;
 }
 
-void process_data(FILE *input_file) {
+node* create_list(FILE *input_file){
 	char in[2] = "\0\0"; 
 	int *result;
+	node* head = malloc(sizeof(node));
+	node* runner = head;
 	while(1 || fgets(in,2,input_file) != NULL){
-		in[0] = 'a';
+		in[0] = 49;
 		result = check(in);
-		printf("%\n",result[0]);
+		if(result[0] != -1){
+			runner->val = result[0];
+			node* temp = malloc(sizeof(node));
+			runner->next = temp;
+			runner = temp;
+		}
 		break;
 	}
 	free(result);
+	return head;
+}
+
+void process_data(FILE *input_file) {
+	node *head = create_list(input_file);
+	printf("%i\n",head->val);
 }
 
 void usage(char *program) {
