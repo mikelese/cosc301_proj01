@@ -17,7 +17,7 @@ int* check(char *in){
 	int *returnvalue = malloc(sizeof(int));
 	returnvalue[0] = -1;
 	printf("Here\n");
-	if(isdigit(in[0]){							//This causes an implicit declaration warning
+	if(isdigit(in[0])){							//This causes an implicit declaration warning
 		returnvalue[0] = atoi(&in[0]);
 	}
 	return returnvalue;
@@ -29,7 +29,7 @@ void process_data(FILE *input_file) {
 	while(1 || fgets(in,2,input_file) != NULL){
 		in[0] = 'a';
 		result = check(in);
-		printf("%d\n",result[0]);
+		printf("%\n",result[0]);
 		break;
 	}
 	free(result);
