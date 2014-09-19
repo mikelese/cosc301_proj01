@@ -17,13 +17,13 @@ int* check(char *in){
 	int *returnvalue = malloc(sizeof(int));
 	returnvalue[0] = -1;
 	printf("Here\n");
-	if(isdigit(in[0]){							//This causes an implicit declaration warning
+	if(isdigit(in[0])){							//This causes an implicit declaration warning
 		returnvalue[0] = atoi(&in[0]);
 	}
 	return returnvalue;
 }
 
-void process_data(FILE *input_file) {
+node* create_list(FILE *input_file){	q12
 	char in[2] = "\0\0"; 
 	int *result;
 	while(1 || fgets(in,2,input_file) != NULL){
@@ -33,6 +33,13 @@ void process_data(FILE *input_file) {
 		break;
 	}
 	free(result);
+	
+	node* head = malloc(sizeof(node));
+	return head;
+}
+
+void process_data(FILE *input_file) {
+	node *head = create_list(input_file);
 }
 
 void usage(char *program) {
