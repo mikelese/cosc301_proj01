@@ -11,7 +11,30 @@
 #include <errno.h>
 #include "list.h"
 
+char** tokenify(const char *s) {
+    char *str = strdup(s);
+    int numSpaces = 0;
 
+    for (int i=0;i<strlen(str);i++) {
+        if(isspace(str[i])) {
+            numSpaces++;
+        }
+    }
+
+    char **ret = malloc((sizeof (char*))* (numSpaces+2));
+    char *tok = strtok(str," \t\n");
+
+    int index = 0;
+    while (tok != NULL) {
+        ret[index] = strdup(tok);
+        tok = strtok(NULL," \t\n");
+        index++;
+    }
+    ret[index] = NULL;
+
+    free(str);
+    return ret;
+}
 
 void check(char *in, int *result){
 	result[0] = -1;
