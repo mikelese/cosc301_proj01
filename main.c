@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
     usertime = usage.ru_utime;
     systime = usage.ru_stime;
 
-    printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec*10000);
+    printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec*100000);
     printf("System time: %f\n", (double)systime.tv_sec+(double)systime.tv_usec*100000);
 
     return 0;
