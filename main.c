@@ -1,7 +1,7 @@
 /*
- *
- * author name(s), date, and other info here
- *
+ * Michael Lese and Jack Sneeringer
+ * 
+ * COSC 301, Fall 2014
  */
 
 #include <stdio.h>
@@ -10,6 +10,9 @@
 #include <string.h>
 #include <errno.h>
 #include "list.h"
+
+#include <sys/time.h>
+#include <sys/resource.h>
 
 char** tokenify(const char *s) {
     char *str = strdup(s);
@@ -73,6 +76,18 @@ void usage(char *program) {
     exit(1);
 }
 
+void printTime() {
+    struct timeval usertime;
+    struct timeval systime;        
+    struct rusage usage;
+    getrusage(RUSAGE_CHILDREN, &usage);
+    usertime = usage.ru_utime;
+    systime = usage.ru_stime;
+
+    printf("User time: %ld.%ld\n", usertime.tv_sec,usertime.tv_usec);
+    printf("System time: %ld.%ld\n", systime.tv_sec,systime.tv_usec);
+}
+
 #ifndef AUTOTEST
 int main(int argc, char **argv) {
     FILE *datafile = NULL;
@@ -106,6 +121,17 @@ int main(int argc, char **argv) {
      */
     process_data(datafile);
     fclose(datafile);
+
+    struct timeval usertime; //Possibly include in separate function
+    struct timeval systime;  //If it does not affect reported time      
+    struct rusage usage;
+    getrusage(RUSAGE_CHILDREN, &usage);
+    usertime = usage.ru_utime;
+    systime = usage.ru_stime;
+
+    printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec*10000);
+    printf("System time: %f\n", (double)systime.tv_sec+(double)systime.tv_usec*100000);
+
     return 0;
 }
 #endif
