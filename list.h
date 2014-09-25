@@ -13,6 +13,7 @@ typedef struct node {
 
 void listadd(node *head, int i);
 void listdestroy(node *head);
+void listprint(node *head);
 
 
 #endif // __LIST_H__

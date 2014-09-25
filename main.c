@@ -50,15 +50,11 @@ void check(char *in, int *result){
 node* create_list(FILE *input_file){
 	char in[2] = "\0\0"; 
 	int result = -1;
-	node* head = malloc(sizeof(node));
-	node* runner = head;
+	node* head = NULL;
 	while(fgets(in,2,input_file) != NULL){
 		check(in,&result);
 		if(result != -1){
-			runner->val = result;
-			node* temp = malloc(sizeof(node));
-			runner->next = temp;
-			runner = temp;
+			listadd(head,result);
 		}
 	}
 	return head;
@@ -66,8 +62,9 @@ node* create_list(FILE *input_file){
 
 void process_data(FILE *input_file) {
 	node *head = create_list(input_file);
-	printf("%d\n",head->val);
-	printf("%u\n",sizeof(node));
+	listprint(head);
+	//printf("%d\n",head->val);
+	//printf("%u\n",sizeof(node));
 	listdestroy(head);
 }
 
