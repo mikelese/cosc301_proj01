@@ -54,7 +54,7 @@ node* create_list(FILE *input_file){
 	while(fgets(in,2,input_file) != NULL){
 		check(in,&result);
 		if(result != -1){
-			listadd(head,result);
+			listadd(&head,result);
 		}
 	}
 	return head;

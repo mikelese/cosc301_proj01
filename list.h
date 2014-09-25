@@ -11,7 +11,7 @@ typedef struct node {
 
 /* your function declarations associated with the list */
 
-void listadd(node *head, int i);
+void listadd(node **head, int i);
 void listdestroy(node *head);
 void listprint(node *head);
 

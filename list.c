@@ -4,29 +4,32 @@
 
 /* your list function definitions */
 
-void listadd(node *head, int i) {
+void listadd(node **head, int i) {
 	
 	node *n = malloc(sizeof(node));
 	n->val = i;
 	
-	if(head == NULL){
+	if(*head == NULL){
 		n->next = NULL;
-		head = n;
+		*head = n;
 		return;
 	}
 	
-	if(head->val > i){
-		n->next = head;
-		head = n;
+	if((**head).val > i){
+		n->next = *head;
+		*head = n;
 		return;
 	}
-	node *previous = head;
-	head = head -> next;
-	while(head->next != NULL) {
-		if(head->val > i){
+	
+	node *runner = *head;
+	node *previous = runner;
+	runner = runner -> next;
+	
+	while(runner->next != NULL) {
+		if(runner->val > i){
 			break;
 		}
-		head = head -> next;
+		runner = runner -> next;
 	}
 	previous->next = n;
 }
@@ -41,9 +44,7 @@ void listdestroy(node *list) {
 
 void listprint(node *list) {
     int i = 0;
-    printf("In list_print\n");
     while (list != NULL) {
-		printf("head not null\n");
         printf("List item %d: %d\n", i++, list->val);
         list = list->next;
     }
