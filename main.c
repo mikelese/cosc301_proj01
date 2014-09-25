@@ -76,17 +76,17 @@ void usage(char *program) {
     exit(1);
 }
 
-void printTime() {
-    struct timeval usertime;
-    struct timeval systime;        
-    struct rusage usage;
-    getrusage(RUSAGE_CHILDREN, &usage);
-    usertime = usage.ru_utime;
-    systime = usage.ru_stime;
+// void printTime() {
+//     struct timeval usertime;
+//     struct timeval systime;        
+//     struct rusage usage;
+//     getrusage(RUSAGE_CHILDREN, &usage);
+//     usertime = usage.ru_utime;
+//     systime = usage.ru_stime;
 
-    printf("User time: %ld.%ld\n", usertime.tv_sec,usertime.tv_usec);
-    printf("System time: %ld.%ld\n", systime.tv_sec,systime.tv_usec);
-}
+//     printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec*10000);
+//     printf("System time: %f\n", (double)systime.tv_sec+(double)systime.tv_usec*100000);
+// }
 
 #ifndef AUTOTEST
 int main(int argc, char **argv) {
@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
     fclose(datafile);
 
     struct timeval usertime; //Possibly include in separate function
-    struct timeval systime;  //If it does not affect reported time      
+    struct timeval systime;  //If it does not affect reported time.      
     struct rusage usage;
     getrusage(RUSAGE_CHILDREN, &usage);
     usertime = usage.ru_utime;
