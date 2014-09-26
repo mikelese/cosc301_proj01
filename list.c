@@ -21,17 +21,22 @@ void listadd(node **head, int i) {
 		return;
 	}
 	
+	if((**head).next == NULL){
+		(**head).next = n;
+		return;
+	}
+
 	node *runner = *head;
-	node *previous = runner;
+	node *previous = *head;
 	runner = runner -> next;
-	
-	while(runner->next != NULL) {
+	while(runner != NULL) {
 		if(runner->val > i){
 			break;
 		}
 		runner = runner -> next;
 	}
 	previous->next = n;
+	n->next = runner;
 }
 
 void listdestroy(node *list) {
