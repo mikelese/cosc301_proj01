@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
         case 1:
             /* only one program argument (the program name) */ 
             /* just equate stdin with our datafile */
-            datafile = stdin;        
+            datafile = stdin;
             break;
 
         case 2:
