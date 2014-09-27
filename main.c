@@ -13,7 +13,7 @@
 
 #include <sys/time.h>
 #include <sys/resource.h>
-
+/*
 char** tokenify(const char *s) {
     char *str = strdup(s);
     int numSpaces = 0;
@@ -38,8 +38,8 @@ char** tokenify(const char *s) {
     free(str);
     return ret;
 }
-
-void check(char *in, int *result){
+*/
+void check(char *in, size_t *result){
 	result[0] = -1;
 	if(isdigit(in[0])){					//This causes an implicit declaration warning
 		result[0] = (int)strtol(in, (char**)NULL, 10);
@@ -48,6 +48,23 @@ void check(char *in, int *result){
 }
 
 node* create_list(FILE *input_file){
+	
+	//new code
+	char *in2 = NULL;
+	size_t max = 0; //this is just so the getline function works
+	size_t len;
+	node * head = NULL;
+	while((len = getline(&in2,&max,input_file)) > 0){
+		check(in2,&len);
+		if(len != -1){
+			listadd(&head,(int)len);
+		}
+	}
+	return head;
+	
+	//end new code
+	
+	/*
 	char in[2] = "\0\0"; 
 	int result = -1;
 	node* head = NULL;
@@ -58,13 +75,12 @@ node* create_list(FILE *input_file){
 		}
 	}
 	return head;
+	*/
 }
 
 void process_data(FILE *input_file) {
 	node *head = create_list(input_file);
 	listprint(head);
-	//printf("%d\n",head->val);
-	//printf("%u\n",sizeof(node));
 	listdestroy(head);
 }
 

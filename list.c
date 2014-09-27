@@ -23,7 +23,7 @@ void listadd(node **head, int i) {
 	node *previous = *head;
 	runner = runner -> next;
 	
-	//loop arcoss list until current node is greater than new node
+	//loop through list until current node is greater than new node
 	//or until the end is reached
 	while(runner != NULL) {
 		if(runner->val > i){
