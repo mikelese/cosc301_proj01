@@ -39,25 +39,60 @@ char** tokenify(const char *s) {
     return ret;
 }
 
-void check(char *in, int *result){
-	result[0] = -1;
-	if(isdigit(in[0])){					//This causes an implicit declaration warning
-		result[0] = (int)strtol(in, (char**)NULL, 10);
-	}
-	return;
+void parseToken(char *unconverted, node *head) {
+    int converted;
+    for (int i=0;i<strlen(unconverted);i++) {
+        if(unconverted[i]=='.') {
+            return;
+        }
+    }
+    errno = 0;
+    char *end;
+    converted = (int)strtol(unconverted, &end, 10);
+    if(errno != ERANGE && end!=unconverted) {
+        printf("Int: %d\n", converted);
+        listprint(head); //Debug
+        listadd(&head,converted);
+    }
+}
+
+void free_tokens(char **tokens) {
+    int i = 0;
+    while (tokens[i] != NULL) {
+        free(tokens[i]); // free each string
+        i++;
+    }
+    free(tokens); // then free the array
 }
 
 node* create_list(FILE *input_file){
-	char in[2] = "\0\0"; 
-	int result = -1;
-	node* head = NULL;
-	while(fgets(in,2,input_file) != NULL){
-		check(in,&result);
-		if(result != -1){
-			listadd(&head,result);
-		}
-	}
-	return head;
+    size_t size = 0;
+    int status = 0;
+    char *line = NULL;
+    status = getline(&line,&size,input_file);
+    node *head = NULL;
+
+    while(status != -1) {
+        for (int i=0;i<strlen(line);i++) {
+            if (line[i] == '#') {
+                line[i] = '\0';
+            }
+        }
+        int index = 0;
+        char **tokens = tokenify(line);
+        char *unconverted = tokens[index];
+        while (unconverted != NULL) {
+            printf("Token: %s\n", unconverted);
+            parseToken(unconverted, head);
+            index++;
+            unconverted = tokens[index];
+        }
+        free_tokens(tokens);
+        status = getline(&line,&size,input_file);
+        printf("Line: %s\n", line);
+    }
+    free(line);
+    return head;
 }
 
 void process_data(FILE *input_file) {
