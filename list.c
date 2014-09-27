@@ -33,6 +33,7 @@ void listadd(node **head, int i) {
 		if(runner->val > i){
 			break;
 		}
+		previous = runner;
 		runner = runner -> next;
 	}
 	previous->next = n;
