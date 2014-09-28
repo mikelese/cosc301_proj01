@@ -14,7 +14,7 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-char** tokenify(const char *s) {
+char** tokenify(const char *s, size_t *len) {
     char *str = strdup(s);
     int numSpaces = 0;
 
@@ -38,6 +38,7 @@ char** tokenify(const char *s) {
     free(str);
     return ret;
 }
+<<<<<<< HEAD
 
 void parseToken(char *unconverted, node **head) {
     int converted;
@@ -49,7 +50,7 @@ void parseToken(char *unconverted, node **head) {
     errno = 0;
     char *end;
     converted = (int)strtol(unconverted, &end, 10);
-    if(errno != ERANGE && end != unconverted) {
+    if(errno != ERANGE && end!=unconverted) {
         printf("Int: %d\n", converted);
         //listprint(head); //Debug
         listadd(head,converted);
@@ -64,9 +65,21 @@ void free_tokens(char **tokens) {
         i++;
     }
     free(tokens); // then free the array
+=======
+/*
+int check(char *in, size_t len, int start){
+	int result = 0;
+	for(int i = 0; i<len; i++){
+		if(isdigit(in[i])){					//This causes an implicit declaration warning
+			result = 10*result + (int)strtol(in, (char**)NULL, 10);
+		}
+	}
+	return result;
+>>>>>>> 5e4e2729fa81d884ddf3ccc030138ee1031a07fc
 }
-
+*/
 node* create_list(FILE *input_file){
+<<<<<<< HEAD
     size_t size = 0;
     int status = 0;
     char *line = NULL;
@@ -95,6 +108,36 @@ node* create_list(FILE *input_file){
     }
     free(line);
     return head;
+=======
+	
+	//new code
+	char *in = NULL;
+	size_t max = 0; //this is just so the getline function works
+	size_t len;
+	node * head = NULL;
+	while((len = getline(&in,&max,input_file)) > 0){
+		tokenify(in,&len);
+		for(int i = 0; i < len; i++){
+			listadd(&head,in[i]);
+		}
+	}
+	return head;
+	
+	//end new code
+	
+	/*
+	char in[2] = "\0\0"; 
+	int result = -1;
+	node* head = NULL;
+	while(fgets(in,2,input_file) != NULL){
+		check(in,&result);
+		if(result != -1){
+			listadd(&head,result);
+		}
+	}
+	return head;
+	*/
+>>>>>>> 5e4e2729fa81d884ddf3ccc030138ee1031a07fc
 }
 
 void process_data(FILE *input_file) {
