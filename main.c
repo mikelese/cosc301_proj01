@@ -203,7 +203,6 @@ int main(int argc, char **argv) {
     getrusage(RUSAGE_SELF, &usage);
     usertime = usage.ru_utime;
     systime = usage.ru_stime;
-    printf("%ld Microseconds\n", usertime.tv_usec);
     printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec/1000000);
     printf("System time: %f\n", (double)systime.tv_sec+(double)systime.tv_usec/1000000);
 
