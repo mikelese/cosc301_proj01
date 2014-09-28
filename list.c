@@ -15,7 +15,6 @@ void listadd(node **head, int i) {
 	if(*head == NULL || (**head).val > i){
 		n->next = *head;
 		*head = n;
-		printf("%d\n",(**head).val);
 		return;
 	}
 	
@@ -40,6 +39,7 @@ void listadd(node **head, int i) {
 }
 
 void listdestroy(node *list) {
+	// Iterate through list and free all nodes
     while (list != NULL) {
         node *tmp = list;
         list = list->next;
@@ -48,11 +48,13 @@ void listdestroy(node *list) {
 }
 
 void listprint(node *list) {
-    int i = 0;
+	printf("*** List Contents Begin ***\n");
+	// Iterate through list and print all nodes
     while (list != NULL) {
-        printf("List item %d: %d\n", i++, list->val);
+        printf("%d\n", list->val);
         list = list->next;
     }
+	printf("*** List Contents End ***\n");
 }
 
 

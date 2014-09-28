@@ -16,91 +16,108 @@
 #include <limits.h>
 
 char** tokenify(const char *s) {
+	//duplicate string for parsing
     char *str = strdup(s);
     int numSpaces = 0;
-
+	
+	//count the number of spaces in the line
     for (int i=0;i<strlen(str);i++) {
         if(isspace(str[i])) {
             numSpaces++;
         }
     }
-
+	
+	//make space for the returned array of tokens
     char **ret = malloc((sizeof (char*))* (numSpaces+2));
     char *tok = strtok(str," \t\n");
 
+	//loop through tokens and place each one in
+	//the array to be returned
     int index = 0;
     while (tok != NULL) {
         ret[index] = strdup(tok);
         tok = strtok(NULL," \t\n");
         index++;
     }
+	//null terminate the array, free the passed in str
+	//and return the array
     ret[index] = NULL;
-
     free(str);
     return ret;
 }
 
 void parseToken(char *unconverted, node **head) {
+	//Initialize variables
     long result;
     int converted;
+    errno = 0;
+    char *end;
+	
+	//loop through token, if you find a . then
+	//it is an invalid token and return
     for (int i=0;i<strlen(unconverted);i++) {
         if(unconverted[i]=='.') {
             return;
         }
     }
-    errno = 0;
-    char *end;
+    //this is some code to verify the size of the token is
+	//within the size limits for int, i.e.  -2^31 to 2^31 - 1
     result = strtol(unconverted, &end, 10);
     if(result < INT_MIN || result > INT_MAX) {
-        printf("%s\n", "Too big");
+		//Can print too big int if we want
+        //printf("%s\n", "Too big");
         return;
     }
-
+	
+	//Plase typecast final result into variable
     converted = (int)result;
-
+	
+	//If there was no error and strtol actually did something
     if(errno != ERANGE && end!=unconverted) {
         listadd(head,converted);
     }
 }
 
 void free_tokens(char **tokens) {
-    int i = 0;
-    while (tokens[i] != NULL) {
-        free(tokens[i]); // free each string
-        i++;
+	// free each string
+	for(int i = 0; tokens[i] != NULL; i++){
+        free(tokens[i]);
     }
-    free(tokens); // then free the array
+	// then free the array
+    free(tokens); 
 }
 
 node* create_list(FILE *input_file){
+	// Initialize variables
     size_t size = 0;
-    int status = 0;
     char *line = NULL;
-    status = getline(&line,&size,input_file);
-    node *head = NULL;
+	node *head = NULL;
 
-    while(status != -1) {
+	//Go through all lines of input
+    while(getline(&line,&size,input_file) != -1) {
+		//Loop through line and if you find a # then 
+		//replace it with null terminator and break
         for (int i=0;i<strlen(line);i++) {
             if (line[i] == '#') {
                 line[i] = '\0';
+				break;
             }
         }
-        int index = 0;
+		//tokenify the line and parse each token
         char **tokens = tokenify(line);
-        char *unconverted = tokens[index];
-        while (unconverted != NULL) {
-            parseToken(unconverted, &head);
-            index++;
-            unconverted = tokens[index];
+		for(int i = 0; tokens[i] != NULL; i++){
+			parseToken(tokens[i],&head);
         }
+		//free the tokens
         free_tokens(tokens);
-        status = getline(&line,&size,input_file);
     }
+	//free the line that getline used
     free(line);
     return head;
 }
 
 void process_data(FILE *input_file) {
+	//Call create list function then print and destroy created list
 	node *head = create_list(input_file);
 	listprint(head);
 	listdestroy(head);
