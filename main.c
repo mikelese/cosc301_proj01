@@ -157,7 +157,7 @@ int main(int argc, char **argv) {
     struct timeval usertime; //Possibly include in separate function
     struct timeval systime;  //If it does not affect reported time.      
     struct rusage usage;
-    getrusage(RUSAGE_CHILDREN, &usage);
+    getrusage(RUSAGE_SELF, &usage);
     usertime = usage.ru_utime;
     systime = usage.ru_stime;
 
