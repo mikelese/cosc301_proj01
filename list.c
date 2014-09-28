@@ -15,6 +15,7 @@ void listadd(node **head, int i) {
 	if(*head == NULL || (**head).val > i){
 		n->next = *head;
 		*head = n;
+		printf("%d\n",(**head).val);
 		return;
 	}
 	

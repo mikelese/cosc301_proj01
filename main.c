@@ -39,7 +39,7 @@ char** tokenify(const char *s) {
     return ret;
 }
 
-void parseToken(char *unconverted, node *head) {
+void parseToken(char *unconverted, node **head) {
     int converted;
     for (int i=0;i<strlen(unconverted);i++) {
         if(unconverted[i]=='.') {
@@ -51,8 +51,9 @@ void parseToken(char *unconverted, node *head) {
     converted = (int)strtol(unconverted, &end, 10);
     if(errno != ERANGE && end != unconverted) {
         printf("Int: %d\n", converted);
-        listprint(head); //Debug
-        listadd(&head,converted);
+        //listprint(head); //Debug
+        listadd(head,converted);
+		//printf("%d\n",(*head).val);
     }
 }
 
@@ -83,7 +84,8 @@ node* create_list(FILE *input_file){
         char *unconverted = tokens[index];
         while (unconverted != NULL) {
             printf("Token: %s\n", unconverted);
-            parseToken(unconverted, head);
+            parseToken(unconverted, &head);
+			//printf("%d\n",(*head).val);
             index++;
             unconverted = tokens[index];
         }
