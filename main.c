@@ -149,7 +149,10 @@ int main(int argc, char **argv) {
     struct timeval usertime; //Possibly include in separate function
     struct timeval systime;  //If it does not affect reported time.      
     struct rusage usage;
-    getrusage(RUSAGE_SELF, &usage);
+    if(getrusage(RUSAGE_SELF, &usage)==-1) { 
+    	printf("getrusage error %s\n", strerror(errno));//This should never happen
+    	exit(-1);
+    }
     usertime = usage.ru_utime;
     systime = usage.ru_stime;
     printf("User time: %f\n", (double)usertime.tv_sec+(double)usertime.tv_usec/1000000);
